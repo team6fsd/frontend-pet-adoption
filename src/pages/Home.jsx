@@ -28,7 +28,7 @@ return (
                             className="flex flex-col justify-center w-full px-8 mx-6 my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 bg-gray-800 text-gray-100">
                             <img alt=""
                                 className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full"
-                                src="https://i.ibb.co/BNGc0Yv/image-removebg-preview-8.png" />
+                                src={row.url} />
                             <div className="flex-1 my-4">
                                 <p className=" font-semibold leadi">{row.name}</p>
                                 <p className="badge">{row.sex}</p>
@@ -37,7 +37,6 @@ return (
                         </div>
                     </>
                     ))}
-
                 </div>
             </div>
         </section>

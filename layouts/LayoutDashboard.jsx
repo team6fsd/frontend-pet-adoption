@@ -14,8 +14,7 @@ return (
 
     <body className="">
         
-    <div className="w-full p-5">
-        
+    <div className="w-full">
         {children}
     </div>
 </body>

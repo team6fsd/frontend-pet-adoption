@@ -1,6 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 const NavDs = () => {
+  const logout = () => {
+    sessionStorage.removeItem('name');
+    sessionStorage.removeItem('email');
+    window.location.href = '/';
+  };
 
 const [publishedPetsCount, setPublishedPetsCount] = useState(0);
 const [prosesPetsCount, setProsesPetsCount] = useState(0);
@@ -46,7 +51,7 @@ const [approvedPetsCount, setApprovedPetsCount] = useState(0);
 
     return (
       <>
-      <div className="w-full flex justify-center items-center ">
+      <div className="w-full flex justify-center items-center mt-5 ">
         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
           <li>
             <a href='/dashboard'>
@@ -57,30 +62,36 @@ const [approvedPetsCount, setApprovedPetsCount] = useState(0);
             </a>
           </li>
           <li>
+            <a href='/dashboard/user'>
+            <i className="fa-solid fa-user"></i>
+                Users
+            </a>
+          </li>
+          <li>
             <a href='/dashboard/pet'>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <i className="fa-solid fa-paw"></i>
                 Pet Publish
               <span className="badge badge-sm badge-warning">{publishedPetsCount}</span>
             </a>
           </li>
           <li>
             <a href='/dashboard/pet/proses'>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <i className="fa-solid fa-paw"></i>
               Pet Proses
               <span className="badge badge-sm badge-warning">{prosesPetsCount}</span>
             </a>
           </li>
           <li>
             <a href='/dashboard/pet/approve'>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <i className="fa-solid fa-paw"></i>
              Pet Approved
             <span className="badge badge-sm badge-warning">{approvedPetsCount}</span>
+            </a>
+          </li>
+          <li>
+            <a  onClick={logout} >
+               <i className="fa-solid fa-right-from-bracket"></i>
+               Logout
             </a>
           </li>
           <li>

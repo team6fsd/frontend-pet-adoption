@@ -1,32 +1,28 @@
 import { useState } from 'react';
 import axios from 'axios';
-import LayoutLanding from "../../../layouts/LayoutLanding";
+import LayoutLanding from '../../../../layouts/LayoutLanding';
 
-const Login = () => {
+const loginAdmin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [Message, setMessage] = useState('');
   
-  const storedUserName = sessionStorage.getItem('user');
-  if (storedUserName) {
-    window.location.href = '/user';
-  }
  
+
   const Login = async (e) => {
     e.preventDefault();
      try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://localhost:5000/loginAdmin', {
         email: email,
         password: password,
     });
-    console.log(response)
     if (response.data.name) {
       setMessage(response.data.msg);
-      const userName = response.data.name;
-      const userEmail = response.data.email;
-      sessionStorage.setItem('email', userEmail);
-      sessionStorage.setItem('user', userName);
-      window.location.href = '/user';
+      const name = response.data.name;
+      const email = response.data.email;
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('name', name);
+      window.location.href = '/dashboard';
   } 
 } catch (error) {
   if (error.response) {
@@ -36,7 +32,6 @@ const Login = () => {
    };
 
   return (
-    <LayoutLanding>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
@@ -50,7 +45,7 @@ const Login = () => {
                 </>
               ) : ''}
             </div>
-            <h1 className="text-5xl font-bold">Login</h1>
+            <h1 className="text-5xl font-bold">Login Admin</h1>
             <p className="py-6">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae consectetur deserunt adipisci a neque explicabo repellendus dolores nihil consequatur ad sapiente asperiores ratione, doloremque eaque temporibus iure nemo ipsa aliquam?
             </p>
@@ -94,8 +89,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </LayoutLanding>
   );
 };
 
-export default Login;
+export default loginAdmin;

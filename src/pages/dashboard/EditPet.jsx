@@ -5,13 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavDs from "../../components/NavDs";
 const EditPet = () => {
     const [name, setName] = useState("");
+    const [file, setFile] = useState("");
+    const [preview, setPreview] = useState("");
     const [breed, setBreed] = useState("");
     const [sex, setSex] = useState("");
     const [age, setAge] = useState("");
     const [color, setColor] = useState("");
     const [description, setDescription] = useState("");
-  
+
+    const ImageLoad = (e) => {
+      const image = e.target.files[0];
+      setFile(image)
+      setPreview(URL.createObjectURL(image));
+    }
     const navigate = useNavigate();
+
     const { id } = useParams();
     useEffect(() => {
       getAnimalById();
@@ -19,14 +27,19 @@ const EditPet = () => {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
+      const AnimalSaveUpdate = new FormData()
+      AnimalSaveUpdate.append("file", file);
+      AnimalSaveUpdate.append("name", name);
+      AnimalSaveUpdate.append("breed", breed);
+      AnimalSaveUpdate.append("sex", sex);
+      AnimalSaveUpdate.append("age", age);
+      AnimalSaveUpdate.append("color", color);
+      AnimalSaveUpdate.append("description", description);
       try {
-        await axios.patch(`http://localhost:5000/animal/${id}`, {
-          name,
-          breed,
-          sex,
-          age,
-          color,
-          description,
+        await axios.patch(`http://localhost:5000/animal/${id}`, AnimalSaveUpdate, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            },
         });
         navigate("/dashboard/pet/");
       } catch (error) {
@@ -39,7 +52,8 @@ const EditPet = () => {
       try {
         const response = await axios.get(`http://localhost:5000/animal/${id}`);
         const animalData = response.data;
-        // Set nilai ke state
+        setPreview(animalData.url);
+        setFile(animalData.image);
         setName(animalData.name);
         setBreed(animalData.breed);
         setSex(animalData.sex);
@@ -62,7 +76,17 @@ const EditPet = () => {
             className="container mx-auto space-y-8 max-w-2xl"
           >
             <div className="grid grid-cols-2 gap-4">
-              
+            <div className="mb-4">
+                <label htmlFor="file" className="text-sm block">
+                  Image
+                </label>
+                <input type="file" onChange={ImageLoad}  className="file-input file-input-bordered file-input-warning w-full max-w-xs" />
+              </div>
+              {preview ? (
+                <figure className="border border-warning p-1 rounded">
+                  <img className="rounded-lg" src={preview} alt="" />
+                </figure>
+              ): ''}
               <div className="mb-4">
                 <label htmlFor="name" className="text-sm block">
                   Name

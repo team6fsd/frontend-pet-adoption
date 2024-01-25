@@ -1,7 +1,8 @@
 import LayoutDashboard from "../../../layouts/LayoutDashboard";
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 import NavDs from "../../components/NavDs";
+
 const ProsesPet = () => {
 const [animal, setAnimal] = useState([]);
 useEffect(()=> {
@@ -43,6 +44,7 @@ return (
                         <tr className="text-left">
                             <th className="p-3">#</th>
                             <th className="p-3">Image</th>
+                            <th className="p-3">Pengadopsi</th> 
                             <th className="p-3">Nama</th>
                             <th className="p-3">Color</th>
                             <th className="p-3">Age</th>
@@ -64,13 +66,17 @@ return (
                                     <div className=" items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src="https://i.ibb.co/BNGc0Yv/image-removebg-preview-8.png"
+                                                <img src={row.url}
                                                     alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                         <div>
                                         </div>
                                     </div>
+                                </td>
+                                <td className="p-3">
+                                    <p className="font-bold p-2">{row.pengadopsi}</p>
+                                    <span className="text-xs badge badge-primary">{row.mails}</span>
                                 </td>
                                 <td className="p-3">
                                     <p>{row.name}</p>

@@ -1,5 +1,5 @@
 import LayoutDashboard from "../../../layouts/LayoutDashboard";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavDs from "../../components/NavDs";
 import axios from "axios";
@@ -22,6 +22,13 @@ const ListPet = () => {
       console.log(error);
     }
   };
+
+  const handleDeleteClick = (id) => {
+    if (window.confirm("Are you sure you want to delete this animal?")) {
+      deleteAnimal(id);
+    }
+  };
+
   return (
     <LayoutDashboard>
       <NavDs />
@@ -57,7 +64,7 @@ const ListPet = () => {
                         <div className=" items-center gap-3">
                           <div className="avatar">
                             <div className="mask mask-squircle w-12 h-12">
-                              <img src="https://i.ibb.co/BNGc0Yv/image-removebg-preview-8.png" alt="Avatar Tailwind CSS Component" />
+                              <img src={row.url} alt="Avatar Tailwind CSS Component" />
                             </div>
                           </div>
                           <div></div>
@@ -90,7 +97,7 @@ const ListPet = () => {
                         <Link to={`/dashboard/pet/edit/${row.id}`} className="btn btn-xs btn-info mr-2">
                           Edit
                         </Link>
-                        <button onClick={() => deleteAnimal(row.id)} className="btn btn-xs btn-primary">
+                        <button onClick={() => handleDeleteClick(row.id)} className="btn btn-xs btn-primary">
                           Delete
                         </button>
                       </td>

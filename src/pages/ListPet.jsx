@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LayoutLanding from "../../layouts/LayoutLanding";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -59,8 +59,8 @@ const ListPet = () => {
                 <>
                   <Link to={`/pet/detail/${row.id}`}>
                     <div key={index} className="card bg-base-100 shadow-xl">
-                      <figure className="p-3 ">
-                        <img src="https://i.ibb.co/3Y4pBGD/kucing-scottish-foldjpeg-20210809113908.jpg" alt="Shoes" className="rounded-lg" />
+                      <figure className="p-3 aspect-video overflow-hidden ">
+                        <img src={row.url} alt="Shoes" className="rounded-lg  " />
                       </figure>
                       <div className="card-body">
                         <h2 className="card-title">

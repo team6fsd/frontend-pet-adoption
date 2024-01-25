@@ -6,6 +6,8 @@ import NavDs from "../../components/NavDs";
 import { Link } from "react-router-dom";
 const AddPet = () => {
   const [name, setName] = useState("");
+  const [file, setFile] = useState("");
+  const [preview, setPreview] = useState("");
   const [breed, setBreed] = useState("");
   const [sex, setSex] = useState("");
   const [age, setAge] = useState("");
@@ -13,19 +15,29 @@ const AddPet = () => {
   const [description, setDescription] = useState("");
   const [status_adoption] = useState("publish");
 
+  const ImageLoad = (e) => {
+    const image = e.target.files[0];
+    setFile(image)
+    setPreview(URL.createObjectURL(image));
+  }
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const AnimalSaveAdd = new FormData()
+    AnimalSaveAdd.append("file", file);
+    AnimalSaveAdd.append("name", name);
+    AnimalSaveAdd.append("breed", breed);
+    AnimalSaveAdd.append("sex", sex);
+    AnimalSaveAdd.append("age", age);
+    AnimalSaveAdd.append("color", color);
+    AnimalSaveAdd.append("description", description);
+    AnimalSaveAdd.append("status_adoption", status_adoption);
     try {
-      await axios.post("http://localhost:5000/animal", {
-        name,
-        breed,
-        sex,
-        age,
-        color,
-        description,
-        status_adoption,
+      await axios.post("http://localhost:5000/animal", AnimalSaveAdd, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
       navigate("/dashboard/pet/");
     } catch (error) {
@@ -41,6 +53,17 @@ const AddPet = () => {
         <section className="p-6 bg-gray-100 text-gray-900">
           <form onSubmit={handleSubmit} className="container mx-auto space-y-8 max-w-2xl">
             <div className="grid grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="file" className="text-sm block">
+                  Image
+                </label>
+                <input type="file" onChange={ImageLoad}  className="file-input file-input-bordered file-input-warning w-full max-w-xs" />
+              </div>
+              {preview ? (
+                <figure className="border border-warning p-1 rounded">
+                  <img className="rounded-lg" src={preview} alt="" />
+                </figure>
+              ): ''}
               <div className="mb-4">
                 <label htmlFor="name" className="text-sm block">
                   Name

@@ -2,45 +2,38 @@ import { useState } from 'react';
 import axios from 'axios';
 import LayoutLanding from "../../../layouts/LayoutLanding";
 
-const Login = () => {
+const Register = () => {
+  
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confPassword, setConfPassword] = useState('');
   const [Message, setMessage] = useState('');
-  
-  const storedUserName = sessionStorage.getItem('user');
-  if (storedUserName) {
-    window.location.href = '/user';
-  }
- 
-  const Login = async (e) => {
+
+  const Register = async (e) => {
     e.preventDefault();
      try {
-      const response = await axios.post('http://localhost:5000/login', {
-        email: email,
-        password: password,
-    });
-    console.log(response)
-    if (response.data.name) {
-      setMessage(response.data.msg);
-      const userName = response.data.name;
-      const userEmail = response.data.email;
-      sessionStorage.setItem('email', userEmail);
-      sessionStorage.setItem('user', userName);
-      window.location.href = '/user';
-  } 
-} catch (error) {
-  if (error.response) {
-      setMessage(error.response.data.msg);
-  }
+        await axios.post('http://localhost:5000/register', {
+          name: name,
+          email: email,
+          password: password,
+          confPassword: confPassword,
+        });
+        window.location.href = '/login';
+     } catch (error) {
+      if(error.response) {
+        setMessage(error.response.data.msg);
+      }
      }
-   };
+  };
 
+  
   return (
     <LayoutLanding>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-          <div>
+            <div>
               {Message ? (
                 <>
                 <div role="alert" className="alert alert-error">
@@ -56,8 +49,22 @@ const Login = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body" onSubmit={Login}>
-            <div className="form-control">
+            <form className="card-body" onSubmit={Register}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="name"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
+              <div className="form-control">
                 <label className="label">
                   <span className="label-text">email</span>
                 </label>
@@ -85,9 +92,23 @@ const Login = () => {
                   required
                 />
               </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Confirm Password</span>
+                </label>
+                <input
+                  type="password"
+                  name="confPassword"
+                  value={confPassword}
+                  onChange={(e) => setConfPassword(e.target.value)}
+                  placeholder="confirm password"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-primary">
-                  Login
+                  Register
                 </button>
               </div>
             </form>
@@ -98,4 +119,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
